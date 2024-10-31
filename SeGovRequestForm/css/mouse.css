@@ -1,0 +1,734 @@
+/*
+	@language: en-US
+	@title: MouseCSS
+	@subject: A minimal CSS framework with organized layers and imports.
+	@tag: css, framework, minimal
+	@category: CSS Framework
+	@content status: Final
+	@company: Clinton Mulligan
+	@author: Clint Mulligan
+	@comment: 
+	@copyright: © 2024 Clinton Mulligan. All rights reserved.
+	@license: BSD 3-Clause License
+
+	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+	3. Neither the name of Clint Mulligan nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+@layer variables, normalize, layout, components, typography, branding, theme, overrides;
+
+/* #####################################################################
+	# Variables
+	#   - A collection of variables easily redefined, used throughout
+	#     framework.
+	##################################################################### */
+
+/* REVIEW Colors were manually adjusted from library to keep living document form smaller */
+
+@layer variables.defaults {
+
+	:root:not([data-theme-mode]),
+	[data-theme-mode="light"] {
+		/* Normalize */
+		--mus-base-font-size: 100%;
+
+		/* Layout */
+		--mus-spacing: 1rem;
+		--mus-grid-column-gap: var(--mus-spacing);
+		--mus-grid-row-gap: var(--mus-spacing);
+		--mus-block-spacing-vertical: var(--mus-spacing);
+		--mus-block-spacing-horizontal: var(--mus-spacing);
+		--mus-form-element-spacing-vertical: 0.75rem;
+		--mus-form-element-spacing-horizontal: 1rem;
+
+		/* Components */
+		/* Block Constants */
+		--mus-border-radius: 0.25rem;
+		--mus-border-width: 0.0625rem;
+		--mus-outline-width: 0.125rem;
+
+		/* Animation Constants */
+		--mus-transition: 0.2s ease-in-out;
+
+		/* Typography Constants */
+		--mus-font-family-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+		--mus-font-family-sans-serif: system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, Helvetica, Arial, "Helvetica Neue", sans-serif, var(--mus-font-family-emoji);
+		--mus-font-family-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace, var(--mus-font-family-emoji);
+		--mus-font-family: var(--mus-font-family-sans-serif);
+		--mus-line-height: 1.6rem;
+		--mus-font-weight: 400;
+		--mus-font-size: 100%;
+		--mus-text-underline-offset: 0.1rem;
+		--mus-typography-spacing-vertical: 1rem;
+
+		/* LINK https://angel-rs.github.io/css-color-filter-generator/ */
+		/* Black, Filter will change icon color to black */
+		--mus-icon-svg-filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7460%) hue-rotate(65deg) brightness(85%) contrast(108%);
+
+		/* Design Colors */
+		--mus-primary-color: #0b3d91;
+		--mus-secondary-color: #1c73e8;
+		--mus-tertiary-color: #f0f0f0;
+		--mus-accent-color: #ff4b5c;
+		--mus-complement-color: #ffd700;
+		--mus-contrast-color: #2e4053;
+		--mus-primary-background-color: #ffffff;
+		--mus-secondary-background-color: #2d1010;
+		--mus-subdued-background-color: #dcdcdc;
+		--mus-text-color: #000000;
+		--mus-overlay-text-color: #ffffff;
+		--mus-border-color: #f0f0f0;
+		--mus-shadow-color: #aaaaaa;
+		--mus-primary-hover: #1c73e8;
+		--mus-secondary-hover: #0b3d91;
+		--mus-tertiary-hover: #cccccc;
+		--mus-accent-hover: #ff6b6b;
+		--mus-complement-hover: #ffec3d;
+		--mus-contrast-hover: #2e4053;
+
+		/* Alert Colors */
+		--mus-alert-bg-color-note: #e8e8e8;
+		--mus-alert-bg-color-tip: #d4edda;
+		--mus-alert-bg-color-info: #d1ecf1;
+		--mus-alert-bg-color-caution: #f8d7da;
+		--mus-alert-bg-color-warning: #fff3cd;
+
+		/* Rainbow Colors */
+		--mus-rainbow-red: #ff0000;
+		--mus-rainbow-orange: #ffa500;
+		--mus-rainbow-yellow: #ffff00;
+		--mus-rainbow-olive: #808000;
+		--mus-rainbow-green: #008000;
+		--mus-rainbow-teal: #008080;
+		--mus-rainbow-blue: #0000ff;
+		--mus-rainbow-violet: #ee82ee;
+		--mus-rainbow-purple: #800080;
+		--mus-rainbow-pink: #ffc0cb;
+		--mus-rainbow-brown: #a52a2a;
+		--mus-rainbow-grey: #808080;
+		--mus-rainbow-black: #000000;
+	}
+
+	[data-theme-mode="dark"] {
+
+		/* Typography Constants */
+		/* LINK https://angel-rs.github.io/css-color-filter-generator/ */
+		/* White, Filter will change icon color to black */
+		--mus-icon-svg-filter: brightness(0) saturate(100%) invert(100%) sepia(93%) saturate(0%) hue-rotate(285deg) brightness(107%) contrast(106%);
+
+		/* Design Colors */
+		--mus-primary-color: #1a73e8;
+		--mus-secondary-color: #0b3d91;
+		--mus-tertiary-color: #2c2c2c;
+		--mus-accent-color: #ff6b6b;
+		--mus-complement-color: #ffc107;
+		--mus-contrast-color: #ffffff;
+		--mus-primary-background-color: #121212;
+		--mus-secondary-background-color: #1f1f1f;
+		--mus-subdued-background-color: #333333;
+		--mus-text-color: #e0e0e0;
+		--mus-overlay-text-color: #ffffff;
+		--mus-border-color: #444444;
+		--mus-shadow-color: #000000;
+		--mus-primary-hover: #1a85ff;
+		--mus-secondary-hover: #0a47c9;
+		--mus-tertiary-hover: #555555;
+		--mus-accent-hover: #ff8585;
+		--mus-complement-hover: #ffd54f;
+		--mus-contrast-hover: #f0f0f0;
+
+		/* Alert Colors */
+		--mus-alert-bg-color-note: #2e4053;
+		--mus-alert-bg-color-tip: #1e5631;
+		--mus-alert-bg-color-info: #1c73e8;
+		--mus-alert-bg-color-caution: #b22222;
+		--mus-alert-bg-color-warning: #ff8c00;
+
+		/* Rainbow Colors */
+		--mus-rainbow-red: #ff0000;
+		--mus-rainbow-orange: #ffa500;
+		--mus-rainbow-yellow: #ffff00;
+		--mus-rainbow-olive: #808000;
+		--mus-rainbow-green: #008000;
+		--mus-rainbow-teal: #008080;
+		--mus-rainbow-blue: #0000ff;
+		--mus-rainbow-violet: #ee82ee;
+		--mus-rainbow-purple: #800080;
+		--mus-rainbow-pink: #ffc0cb;
+		--mus-rainbow-brown: #a52a2a;
+		--mus-rainbow-grey: #808080;
+		--mus-rainbow-black: #000000;
+	}
+}
+
+/* #####################################################################
+	# Normalize
+	#   - Reset CSS properties for various elements to ensure consistency
+	#     across browsers.
+	##################################################################### */
+@layer normalize.default {
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	* {
+		border: none;
+	}
+
+	img {
+		display: block;
+		max-width: 100%;
+	}
+
+	menu:not(article menu),
+	ol:not(article ol),
+	ul:not(article ul) {
+		list-style: none;
+		margin: 0;
+	}
+
+	menu,
+	ol,
+	ul {
+		padding-left: 0;
+	}
+
+	article ol,
+	article ul {
+		list-style-position: inside;
+	}
+
+	html {
+		-webkit-text-size-adjust: none;
+		text-size-adjust: none;
+		/* NOTE With font-size 62.5%, 1rem = 10px; 1.2em = 12px and so on. */
+		font-size: var(--mus-base-font-size);
+	}
+
+	label,
+	button,
+	select,
+	summary,
+	[type=radio],
+	[type=submit],
+	[type=checkbox] {
+		cursor: pointer;
+	}
+
+	:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	[hidden] {
+		/* LINK https://developer.mozilla.org/en-US/docs/Web/CSS/visibility */
+		display: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
+}
+
+/* #####################################################################
+# Layout
+#   - Flex, flexbox layouts, and spacing utilities.
+#   - Grid, grid utilities. 
+##################################################################### */
+@layer layout.default {
+
+	/* Flex System */
+	.flex-row {
+		display      : flex;
+		flex-wrap    : wrap;
+		/* Negative margin to counteract padding on columns */
+		margin-left  : calc(-1 * var(--mus-grid-column-gap));
+		margin-right : calc(-1 * var(--mus-grid-column-gap));
+		margin-bottom: var(--mus-grid-row-gap);
+	}
+
+	.flex-column {
+		flex         : 1 0 0%;
+		/* Flexible width, initial flex-basis of 0% */
+		padding-left : var(--mus-grid-column-gap);
+		padding-right: var(--mus-grid-column-gap);
+	}
+
+	/* Define specific column widths based on the grid system */
+	/* Column integer / 12 = percentage of width. */
+	.flex-col-1 {
+		flex-basis: 8.333%;
+	}
+
+	.flex-col-2 {
+		flex-basis: 16.667%;
+	}
+
+	.flex-col-3 {
+		flex-basis: 25%;
+	}
+
+	.flex-col-4 {
+		flex-basis: 33.333%;
+	}
+
+	.flex-col-5 {
+		flex-basis: 41.667%;
+	}
+
+	.flex-col-6 {
+		flex-basis: 50%;
+	}
+
+	.flex-col-7 {
+		flex-basis: 58.333%;
+	}
+
+	.flex-col-8 {
+		flex-basis: 66.667%;
+	}
+
+	.flex-col-9 {
+		flex-basis: 75%;
+	}
+
+	.flex-col-10 {
+		flex-basis: 83.333%;
+	}
+
+	.flex-col-11 {
+		flex-basis: 91.667%;
+	}
+
+	.flex-col-12 {
+		flex-basis: 100%;
+	}
+
+	/* Utility Classes for Flex Layout */
+	.flex-container {
+		width        : 100%;
+		margin-right : auto;
+		margin-left  : auto;
+		padding-right: var(--mus-container-padding);
+		padding-left : var(--mus-container-padding);
+	}
+
+	@media (min-width: 576px) {
+		.flex-container {
+			max-width: 540px;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.flex-container {
+			max-width: 720px;
+		}
+	}
+
+	@media (min-width: 992px) {
+		.flex-container {
+			max-width: 960px;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.flex-container {
+			max-width: 1140px;
+		}
+	}
+
+	/* Flexbox Utilities */
+	.d-flex {
+		display: flex;
+	}
+
+	.flex-row {
+		flex-direction: row;
+	}
+
+	.flex-column {
+		flex-direction: column;
+	}
+
+	.justify-content-start {
+		justify-content: flex-start;
+	}
+
+	.justify-content-center {
+		justify-content: center;
+	}
+
+	.justify-content-end {
+		justify-content: flex-end;
+	}
+
+	.justify-content-between {
+		justify-content: space-between;
+	}
+
+	.justify-content-around {
+		justify-content: space-around;
+	}
+
+	.align-items-start {
+		align-items: flex-start;
+	}
+
+	.align-items-center {
+		align-items: center;
+	}
+
+	.align-items-end {
+		align-items: flex-end;
+	}
+
+	/* Spacing Utilities */
+	.m-0 {
+		margin: 0 !important;
+	}
+
+	.mt-0 {
+		margin-top: 0 !important;
+	}
+
+	.mr-0 {
+		margin-right: 0 !important;
+	}
+
+	.mb-0 {
+		margin-bottom: 0 !important;
+	}
+
+	.ml-0 {
+		margin-left: 0 !important;
+	}
+
+	.p-0 {
+		padding: 0 !important;
+	}
+
+	.pt-0 {
+		padding-top: 0 !important;
+	}
+
+	.pr-0 {
+		padding-right: 0 !important;
+	}
+
+	.pb-0 {
+		padding-bottom: 0 !important;
+	}
+
+	.pl-0 {
+		padding-left: 0 !important;
+	}
+
+	/* Grid System */
+	/* Define the grid container */
+	.grid-container {
+		display              : grid;
+		grid-template-columns: 1fr 2fr 1fr;
+		/* Define 3 columns */
+		grid-template-rows   : auto 1fr auto;
+		/* Define the row sizes */
+		grid-gap             : var(--mus-grid-column-gap);
+		/* Add gaps between grid items */
+		padding              : var(--mus-grid-column-gap);
+	}
+
+	/* Default grid areas when all items are present */
+	.grid-container {
+		grid-template-areas:
+			"header header header"
+			"menu menu menu"
+			"sidebar main aside"
+			"footer footer footer";
+	}
+
+	/* If the sidebar is not present, make the main span all columns */
+	.grid-container:not(:has(.sidebar)) {
+		grid-template-areas:
+			"header header header"
+			"menu menu menu"
+			"main main aside"
+			"footer footer footer";
+	}
+
+	/* If the aside is not present, make the main span all columns */
+	.grid-container:not(:has(.aside)) {
+		grid-template-areas:
+			"header header header"
+			"menu menu menu"
+			"sidebar main main"
+			"footer footer footer";
+	}
+
+	/* If both sidebar and aside are not present, make the main span all columns */
+	.grid-container:not(:has(.aside, .sidebar)) {
+		grid-template-areas:
+			"header header header"
+			"menu menu menu"
+			"main main main"
+			"footer footer footer";
+	}
+
+	/* Responsive layout for small screens */
+	@media (max-width: 768px) {
+		.grid-container {
+			grid-template-areas:
+				"header"
+				"menu"
+				"sidebar"
+				"main"
+				"aside"
+				"footer";
+			grid-template-columns: 1fr;
+			/* Single column layout */
+		}
+
+		/* Hide the sidebar and aside on small screens */
+		.sidebar,
+		.aside {
+			display: none;
+		}
+	}
+
+	/* Define each grid item */
+	.header {
+		grid-area: header;
+		padding  : var(--mus-grid-column-gap);
+	}
+
+	.menu {
+		grid-area: menu;
+		padding  : var(--mus-grid-column-gap);
+	}
+
+	.sidebar {
+		grid-area: sidebar;
+		padding  : var(--mus-grid-column-gap);
+	}
+
+	.main {
+		grid-area: main;
+		padding  : var(--mus-grid-column-gap);
+	}
+
+	.aside {
+		grid-area: aside;
+		padding  : var(--mus-grid-column-gap);
+	}
+
+	.footer {
+		grid-area: footer;
+		padding  : var(--mus-grid-column-gap);
+	}
+}
+
+/* #####################################################################
+	# Components
+	#   - Styles for forms, tables, and semantic HTML5 elements.
+	##################################################################### */
+
+@layer components.default {
+
+	:root {
+		/* Button Colors */
+		--mus-button-color: var(--mus-overlay-text-color);
+		--mus-button-bg: var(--mus-primary-color);
+		--mus-button-hover-bg: var(--mus-primary-hover);
+
+		/* Table Colors */
+		--mus-table-header-color: var(--mus-overlay-text-color);
+		--mus-table-header-bg: var(--mus-primary-color);
+		--mus-table-stripe-bg: var(--mus-subdued-background-color);
+
+		/* Element Border Color */
+		--mus-border-color: var(--mus-accent-color);
+	}
+
+	/* Semantic HTML5 Elements */
+	header,
+	nav,
+	main,
+	section,
+	article,
+	aside,
+	form,
+	details,
+	footer {
+		display: block;
+		margin-bottom: 1em;
+		padding: 1em;
+		border: 1px solid var(--mus-border-color);
+		border-radius: 4px;
+	}
+
+	summary {
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+	/* Form Elements */
+	input,
+	select,
+	textarea,
+	button {
+		font-family: inherit;
+		font-size: 100%;
+		margin: 0;
+		padding: 0.5em;
+		border: 1px solid var(--mus-border-color);
+		border-radius: 4px;
+	}
+
+	button {
+		cursor: pointer;
+		background-color: var(--mus-button-bg);
+		color: var(--mus-button-color);
+		border: none;
+		margin: 1em 0 1em 0;
+		padding: 0.75em 1.5em;
+		transition: background-color 0.3s;
+	}
+
+	button:hover {
+		background-color: var(--mus-button-hover-bg);
+	}
+
+	fieldset {
+		border: 1px solid var(--mus-border-color);
+		padding: 1em;
+		margin: 0 0 1em 0;
+	}
+
+	legend {
+		padding: 0 0.5em;
+		font-weight: bold;
+	}
+
+	label {
+		/*display: block;*/
+		margin: 0.5em 0;
+	}
+
+	input,
+	select,
+	textarea {
+		display: block;
+		margin: 0.5em 0;
+		width: 100%;
+	}
+
+	/* Table Elements */
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 1em;
+	}
+
+	th,
+	td {
+		padding: 0.75em;
+		border: 1px solid var(--mus-border-color);
+		text-align: left;
+	}
+
+	th {
+		color: var(--mus-table-header-color);
+		background-color: var(--mus-table-header-bg);
+	}
+
+	tr:nth-child(even) {
+		background-color: var(--mus-table-stripe-bg);
+	}
+
+	/* Additional Components Utility Classes */
+	.tooltip {
+		position: relative;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.tooltip .tooltip-text {
+		visibility: hidden;
+		width: 100%;
+		background-color: var(--mus-subdued-background-color);
+		color: var(--mus-text-color);
+		text-align: center;
+		border-radius: 6px;
+		padding: 5px;
+		position: absolute;
+		z-index: 1;
+		bottom: var(--mus-line-height);
+		/* Position above the element */
+		left: 0%;
+		opacity: 0;
+		transition: opacity 0.3s;
+	}
+
+	.tooltip:hover .tooltip-text {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+
+/* #####################################################################
+	# Branding
+	#   - SVG Icons and classes for branding and utility purposes.
+	##################################################################### */
+
+@layer branding {
+
+	/* REVIEW REDACTED NOT USED IN FORM */
+}
+
+/* #####################################################################
+	# Default Theme
+	#   - Theme-specific styles, like light and dark mode.
+	##################################################################### */
+
+@layer theme.default {
+
+	html {
+		background-color: var(--mus-secondary-background-color);
+		padding: 1rem;
+		border: 2px solid var(--mus-accent-color);
+		scroll-behavior: smooth;
+	}
+
+	body {
+		padding: 1rem;
+		background-color: var(--mus-primary-background-color);
+		color: var(--mus-text-color);
+		/* Smooth fade effect when changing modes */
+		transition: background-color 0.5s ease, color 0.5s ease;
+	}
+
+	a {
+		color: var(--mus-rainbow-blue, #0000EE);
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: var(--mus-rainbow-blue, #0000EE);
+		text-decoration: underline;
+	}
+
+	a:visited {
+		color: var(--mus-rainbow-purple, #551A8B);
+	}
+
+	a:active {
+		color: var(--mus-rainbow-red, #FF0000);
+	}
+}
